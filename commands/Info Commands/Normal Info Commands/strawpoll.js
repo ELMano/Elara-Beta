@@ -1,7 +1,6 @@
 const { RichEmbed } = require('discord.js')
 const { Command} = require('../../../util/Commando');
 const fetch = require('node-fetch');
-const {startTyping, stopTyping } = require('../../../util/util.js');
 
 module.exports = class StrawpollCommand extends Command {
     constructor(client) {
@@ -64,12 +63,10 @@ module.exports = class StrawpollCommand extends Command {
                 .setImage(`http://www.strawpoll.me/images/poll-results/${strawpoll.id}.png`)
                 .setDescription(`Options on this poll: ${strawpoll.options.map((val) => `\`${val}\``).join(', ')}`)
                 .addField(`Links`, `[Vote Here!](http://www.strawpoll.me/${strawpoll.id})\n[Results](https://www.strawpoll.me/${strawpoll.id}/r)`)
-            stopTyping(msg);
+ 
 
             return msg.embed(pollEmbed);
         } catch (err) {
-            stopTyping(msg);
-            console.log(err)
             return msg.reply('an error occurred creating the strawpoll');
         }
         } catch (e) {
