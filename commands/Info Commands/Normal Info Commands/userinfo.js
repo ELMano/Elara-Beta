@@ -1,0 +1,58 @@
+const { Command } = require('../../../util/Commando');
+const Discord = require('discord.js');
+const moment = require('moment-timezone')
+module.exports = class WhoisCommand extends Command {
+    constructor(client) {
+        super(client, {
+            name: 'userinfo',
+            memberName: 'userinfo',
+            group: 'info',
+            aliases: [`ui`],
+            description: 'Gets information about a user.',
+            format: 'UserID|UserName(partial or full)',
+            examples: [`${client.commandPrefix}userinfo @user`],
+            args: [
+                {
+                    key: 'user',
+                    prompt: 'What user do you want the info about?',
+                    type: 'user',
+                    default: msg => msg.author
+                }
+            ]
+        })
+    }
+
+    async run(msg, { user }) {
+        this.client.stats(this.client, "cmd", null, null, null)
+        try{
+        let embed = new Discord.RichEmbed();
+            if(msg.guild){
+                embed.setAuthor(msg.guild.name, msg.guild.iconURL)
+            }else{
+                embed.setAuthor(msg.author.tag, msg.author.displayAvatarURL)
+            }
+            embed.setColor(`RANDOM`)
+            .setThumbnail(user.displayAvatarURL)
+            .setTimestamp()
+            .setDescription(`
+            **User: **${user} \`@${user.tag}\` (${user.id})
+            **Discriminator: ** #${user.discriminator}
+            **Avatar: ** [Click Here](${user.displayAvatarURL})
+            **Bot: ** ${user.bot ? `Yes ${this.client.util.emojis.robot}` : `No ${this.client.util.emojis.human}`}
+            **Created At: ** ${moment(user.createdAt).format('dddd, MMMM Do YYYY')}
+            **Nitro/Partner: ** ${user.displayAvatarURL.includes('.gif') ? "Nitro/Partner User": "Normal User"}
+            `)
+            if(this.client.isOwner(user.id)){
+            embed.addField(`Bot Owner`, `${this.client.isOwner(user.id) ? "Yes, Hi Boss <:SmileyHearts:485361754633797654>" : "No"}`)
+            }
+            //if (this.client.guilds.get("499409162661396481").members.get(member.user.id)) {
+            //embed.addField(`Bot Support `, `${this.client.guilds.get("499409162661396481").members.get(member.user.id).roles.has("Support Team") ? "No" : "Yes"}`, true)
+            // }
+            embed.setFooter(`Want to see another users info? Do ${msg.guild._commandPrefix ? msg.guild._commandPrefix : this.client.commandPrefix}userinfo @user/userid`)
+        msg.say(embed)
+        } catch (e) {
+            this.client.error(this.client, msg, e);
+        this.client.logger(this.client, msg.guild, e.stack, msg, msg.channel)
+        }
+    }
+}
