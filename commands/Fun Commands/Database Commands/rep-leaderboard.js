@@ -28,21 +28,22 @@ try{
     } else if (res.length < 10) {
         let user = await this.client.fetchUser(res[i].userID);
         if (res[i].reps !== 0) {
-            embed.addField(`${i + 1}. ${user.username}`, `${user} \`${user.tag}\` (${user.id})\n**Reputation Points: **${res[i].reps}`)
+            embed.addField(`${i + 1}. ${user ? user.username : res[i].userTag}`, `${user ? `${user} \`${user.tag}\` (${user.id})`: res[i].userTag}\n**Reputation Points: **${res[i].reps}`)
         }
       //less than 10 results
       for (i = 0; i < res.length; i++) {
           let user = await this.client.fetchUser(res[i].userID);
           if (res[i].reps !== 0) {
-              embed.addField(`${i + 1}. ${user.username}`, `${user} \`${user.tag}\` (${user.id})\n**Reputation Points: **${res[i].reps}`)
+               embed.addField(`${i + 1}. ${user ? user.username : res[i].userTag}`, `${user ? `${user} \`${user.tag}\` (${user.id})`: res[i].userTag}\n**Reputation Points: **${res[i].reps}`)
           }
       }
     } else {
       //more than 10 results
       for (i = 0; i < 10; i++) {
           let user = await this.client.fetchUser(res[i].userID);
+           
           if (res[i].reps !== 0) {
-              embed.addField(`${i + 1}. ${user.username}`, `${user} \`${user.tag}\` (${user.id})\n**Reputation Points: **${res[i].reps}`)
+               embed.addField(`${i + 1}. ${user ? user.username : res[i].userTag}`, `${user ? `${user} \`${user.tag}\` (${user.id})`: res[i].userTag}\n**Reputation Points: **${res[i].reps}`)
           }
       }
     }
