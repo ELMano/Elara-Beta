@@ -27,7 +27,7 @@ module.exports = class NCommand extends Command {
         if(user.bot) return;
         vcoins.findOne({userID: user.id, guildID: message.guild.id}, async (err, db) => {
             if(!db){
-                return message.channel.send(`You don't have any heartagrams in the database.`)
+                return message.channel.send(`**${user.tag}** doesn't have any heartagrams. :frowning:`)
             }else{
                 let e = new Discord.RichEmbed()
                 .setAuthor(user.tag, user.displayAvatarURL)
