@@ -57,7 +57,6 @@ module.exports = class NCommand extends Command {
             msg.say(e)
         }
     } catch (e) {
-        this.client.error(this.client, msg, e);
     this.client.logger(this.client, msg.guild, e.stack, msg, msg.channel)
     }
     }
