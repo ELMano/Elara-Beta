@@ -33,7 +33,7 @@ module.exports = class NCommand extends Command {
         if (message.author.id === user.id) return message.channel.send(`You can't add coins from yourself.`)
         }
         this.client.stats(this.client, "cmd", null, null, null);
-        this.client.dbcoins.findOne({ userID: message.author.id, guildID: message.guild.id }, (err, db) => {
+        this.client.dbcoins.findOne({ userID: user.id, guildID: message.guild.id }, (err, db) => {
 if (!db) {return message.channel.send(`There isn't a database for you, yet.`)}else {
         db.coins = db.coins + amount;
         db.save().catch(err => {
