@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const moment = require('moment');
 module.exports.run = (bot, guild) => {
     try{
+    let client = bot;
     bot.db.findOneAndRemove({ guildID: guild.id }).catch((err) => console.log(err));
     bot.stats(bot, null, null, null, "guildleft");
     // require('../util/playing.js')(bot)
@@ -29,8 +30,17 @@ module.exports.run = (bot, guild) => {
         `)
     bot.channels.get(bot.config.log).send(Deletedserverembed)
     bot.owners.map(c => c.send(Deletedserverembed))
+      let e2 = new Discord.RichEmbed()
+      .setAuthor(client.user.tag, client.user.displayAvatarURL)
+      .setColor(`#FF0000`)
+      .setDescription(`${guild.name} (${guild.id})\n**Member Count: **${guild.memberCount}\n**Created At: **${moment(guild.createdAt).format("dddd, MMMM Do YYYY")}\n\nWe now have ${client.guilds.size} Servers!`)
+      .setTitle(`Server Left`)
+      .setTimestamp()
+      .addField(`Owner`, `${guild.owner} \`${guild.owner.user.tag}\` (${guild.ownerID})`)
+      .setThumbnail(guild.iconURL)
+      .setFooter(guild.name, guild.iconURL)
+      client.channels.get("499410445082427412").send(e2)
     } catch (e) {
-        message.channel.send(`ERROR:\n$\{e}`)
         bot.logger(bot, guild, e.stack)
     }
 }
