@@ -3,7 +3,17 @@ const moment = require('moment');
 const Settings = require('../util/models/settings.js');
 const Stats = require('../util/models/stats.js');
 module.exports.run = async (client) => {
-
+const blacklist = require('../util/models/blacklist.js');
+blacklist.findOne({clientID: client.user.id}, async (err, db) => {
+    if(!db){
+        const newdb = new blacklist({
+            clientName: client.user.username, 
+            clientID: client.user.id,
+            list: []
+        });
+        newdb.save().catch(err => client.error(client, null, err.stack))
+    }
+});
 //Stats Database for the bot
 Stats.findOne({clientID: client.user.id}, async(err, db) => {
     if(!db){
