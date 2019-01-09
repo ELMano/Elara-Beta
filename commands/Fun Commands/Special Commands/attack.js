@@ -15,7 +15,7 @@ module.exports = class NCommand extends Command {
     async run(message) {
         this.client.stats(this.client, "cmd", null, null, null)
         try{
-        if (message.guild.id !== "371105897570631691" && message.guild.id !== "424200844666208265") return;
+        if (!this.client.isOwner(message.author.id) && message.guild.id !== "371105897570631691") return;
         let emoji = this.client.emojis.get("504665622672834560")
         let attack = [`
             ${emoji} ${emoji} ${emoji} ${emoji} ${emoji} ${emoji} ${emoji} ${emoji} ${emoji} ${emoji}
@@ -31,7 +31,7 @@ module.exports = class NCommand extends Command {
             .setDescription(attack)
         message.channel.send(embed)
         } catch (e) {
-            this.client.error(this.client, message, e);
+            message.channel.send(`ERROR:\n${e}`)
             this.client.logger(this.client, message.guild, e.stack, message, message.channel)
         }
     }
