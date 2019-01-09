@@ -6,7 +6,7 @@ module.exports = class NCommand extends Command {
         super(client, {
             name: "blacklistremove",
             memberName: "blacklistremove",
-            aliases: [],
+            aliases: [`br`],
             examples: [`${client.commandPrefix}bl-`],
             description: "Removes a server from the blacklist",
             group: "owner",
