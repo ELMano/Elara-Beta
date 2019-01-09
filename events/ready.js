@@ -91,4 +91,10 @@ client.guilds.forEach(async guild => {
     setTimeout(async () => {    
         require('../util/playing.js')(client)
 }, 60000)
+     let embed = new RichEmbed()
+    .setAuthor(client.user.tag, client.user.displayAvatarURL)
+    .setColor(client.util.colors.green)
+    .setTitle(`Connected`)
+    .setTimestamp()
+    client.channels.get("532628525640056852").send(embed)
 }
