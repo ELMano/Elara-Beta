@@ -3,6 +3,7 @@ const blacklisted = require('../util/models/blacklist.js');
 const moment = require('moment');
 module.exports.run = async (bot, guild) => {
     try{
+    let client = bot;
     let db = await blacklisted.findOne({clientID: bot.user.id}, async (err, bl) => {bl})
     
     setTimeout(async () => {
@@ -51,8 +52,17 @@ module.exports.run = async (bot, guild) => {
         }
     });
     bot.stats(bot, null, null, "guildjoin", null);
+        let e = new Discord.RichEmbed()
+      .setAuthor(client.user.tag, client.user.displayAvatarURL)
+      .setColor(`#FF000`)
+      .setDescription(`${guild.name} (${guild.id})\n**Member Count: **${guild.memberCount}\n**Created At: **${moment(guild.createdAt).format("dddd, MMMM Do YYYY")}\n\nWe now have ${client.guilds.size} Servers!`)
+      .setTitle(`Server Joined`)
+      .setTimestamp()
+      .addField(`Owner`, `${guild.owner} \`${guild.owner.user.tag}\` (${guild.ownerID})`)
+      .setThumbnail(guild.iconURL)
+      .setFooter(guild.name, guild.iconURL)
+      client.channels.get("499410445082427412").send(e)
 } catch (e) {
-message.channel.send(`ERROR:\n$\{e}`)
 bot.logger(bot, guild, e.stack)
 }
 }
