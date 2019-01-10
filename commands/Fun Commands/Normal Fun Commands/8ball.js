@@ -1,7 +1,5 @@
 const { Command } = require('../../../util/Commando'),
     Discord = require('discord.js');
-const client = require('nekos.life');
-const neko = new client();
 module.exports = class NCommand extends Command {
     constructor(client) {
         super(client, {
@@ -23,11 +21,12 @@ module.exports = class NCommand extends Command {
     async run(message, { ball }) {
         this.client.stats(this.client, "cmd", null, null, null)
         try{
-        let n = await neko.getSFW8Ball()
+        let answer = [`Yes`, `No`, `Maybe`, `Nope`, `Never`, `Ask again later.`, `Absolutely`, `Not now`, `It will pass`, `Go for it`, `Wait for it`, `No doubt`];
+        let result = Math.floor(Math.random() * answer.length);
         let embed = new Discord.RichEmbed()
             .setColor("RANDOM")
-            .setDescription(`**Question:** ${ball}\n**Answer:** ${n.response.toUpperCase()}`)
-            .setImage(n.url);
+            .setDescription(`**Question:** ${ball}\n**Answer:** ${answer[result]}`)
+            .setImage(answer[result]);
         message.channel.send(embed);
         } catch (e) {
             this.client.error(this.client, message, e);
