@@ -22,7 +22,7 @@ module.exports = class CleanCommand extends Command {
         try{
         msg.delete(100).catch()
         const messagesToDelete = await msg.channel.fetchMessages({ limit: 100 }).catch(err => null);
-        let msgs = messagesToDelete.filter(message => message.content && !message.attachments.size !== 0 && message.pinned === false && !message.embeds.size !== 0)
+        let msgs = messagesToDelete.filter(message => message.content && message.attachments.map(c => c).length < 1 && message.pinned === false && !message.embeds.size !== 0)
         msg.channel.bulkDelete(msgs.array().reverse()).catch(err => null)
 
         return null;
