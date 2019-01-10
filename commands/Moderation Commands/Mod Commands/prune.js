@@ -74,7 +74,7 @@ module.exports = class CleanCommand extends Command {
                 messageFilter = message => message.attachments.size !== 0 && message.pinned === false
             } else
             if(filter === "text"){
-                messageFilter = message => message.content && !message.attachments.size !== 0 && message.pinned === false && !message.embeds.size !== 0
+                messageFilter = message => message.content && message.attachments.map(c => c).length < 1 && message.pinned === false && !message.embeds.size !== 0
             }else
             if (filter === 'links' || filter === "urls") {
                 messageFilter = message => message.content.search(/https?:\/\/[^ \/\.]+\.[^ \/\.]+/) !== -1 && message.pinned === false // eslint-disable-line no-useless-escape, max-len
