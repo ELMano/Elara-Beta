@@ -54,27 +54,30 @@ module.exports = class CleanCommand extends Command {
 
         if (filter) {
             if (filter === 'invite' || filter === "invites") {
-                messageFilter = message => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i)
+                messageFilter = message => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i) && message.pinned === false
                     !== -1;
             } else if (filter === 'user' || filter === 'member' || filter === 'members' || filter === "users") {
                 if (member) {
                     const { user } = member;
-                    messageFilter = message => message.author.id === user.id;
+                    messageFilter = message => message.author.id === user.id && message.pinned === false
                 } else {
                     return msg.say(`${msg.author}, you have to mention someone.`);
                 }
             } else 
             if (filter === 'bots' || filter === "bot" || filter === "robots" || filter === "robot") {
-                messageFilter = message => message.author.bot;
+                messageFilter = message => message.author.bot && message.pinned === false
             } else 
             if (filter === 'you') {
-                messageFilter = message => message.author.id === this.client.user.id;
+                messageFilter = message => message.author.id === this.client.user.id && message.pinned === false
             } else 
             if (filter === 'upload' || filter === "photos" || filter === "images") {
-                messageFilter = message => message.attachments.size !== 0;
+                messageFilter = message => message.attachments.size !== 0 && message.pinned === false
             } else
+            if(filter === "text"){
+                messageFilter = message => message.content && !message.attachments.size !== 0 && message.pinned === false && !message.embeds.size !== 0
+            }else
             if (filter === 'links' || filter === "urls") {
-                messageFilter = message => message.content.search(/https?:\/\/[^ \/\.]+\.[^ \/\.]+/) !== -1; // eslint-disable-line no-useless-escape, max-len
+                messageFilter = message => message.content.search(/https?:\/\/[^ \/\.]+\.[^ \/\.]+/) !== -1 && message.pinned === false // eslint-disable-line no-useless-escape, max-len
             } else {
                 return msg.say(`${msg.author}, this is not a valid filter. \`help clean\` for all available filters.`);
             }
@@ -88,13 +91,14 @@ module.exports = class CleanCommand extends Command {
         }
 
         const messagesToDelete = await msg.channel.fetchMessages({ limit }).catch(err => null);
-        msg.channel.bulkDelete(messagesToDelete.array().reverse()).catch(err => null)
+        let msgs = messagesToDelete.filter(message => message.pinned === false)
+        msg.channel.bulkDelete(msgs.array().reverse()).catch(err => null)
 
         return null;
 
         
         } catch (e) {
-            this.client.error(this.client, msg, e);
+        this.client.error(this.client, msg, e)
         this.client.logger(this.client, msg.guild, e.stack, msg, msg.channel)
         }
     }
