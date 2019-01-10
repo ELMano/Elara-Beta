@@ -11,13 +11,13 @@ module.exports.run = async (bot, member) => {
     coins.findOneAndRemove({userID: member.user.id}, (err) => console.log(err));
     let botembed = new Discord.RichEmbed()
         .setColor("#FF0000")
-        .setAuthor('Member Left', member.user.displayAvatarURL)
+        .setAuthor(`Member Left${bot.isOwner(member.user.id) ? ' - 🛡 Bot Owner' : ''}`, member.user.displayAvatarURL)
         .setTimestamp()
         .addField(`UserInfo`, `**Mention: **${member.user}\n**Tag: **${member.user.tag}\n**ID: **${member.id}\n**Nickname: **${member.nickname ? member.nickname : "None"}\n**Joined At: **${moment(member.joinedAt).format('dddd, MMMM Do YYYY')}\n**Created At: **${moment(member.user.createdAt).format('dddd, MMMM Do YYYY')}`)
         .addField(`Had Role(s)`, member.roles.size > 1 ? bot.functions.arrayClean(null, member.roles.map((r) => { if (r.name !== '@everyone') { return r; } return null; })).join(' | ') : '**None**', false)
         .setFooter(`Member Left At`)
         .setThumbnail(member.user.displayAvatarURL)
-    bot.functions.joins(bot, member.guild, botembed)
+    bot.log(bot, member.guild, botembed)
     }catch(e){
         bot.logger(bot, member.guild, e.stack)
     }
