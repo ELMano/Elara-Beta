@@ -24,13 +24,13 @@ module.exports = class NCommand extends Command {
             try{
             let server = this.client.guilds.get(id)
             let db = await this.client.db.findOne({guildID: server.id}, async(err, settings) => {settings})
-            let logchannel = await message.guild.channels.get(db.logchannel);
+            let logchannel = await this.client.channels.get(db.logchannel);
             if(!logchannel) logchannel = "None";
-            let vclogs = await message.guild.channels.get(db.vclogs);
+            let vclogs = await this.client.channels.get(db.vclogs);
             if(!vclogs) vclogs = "None";
-            let reports = await message.guild.channels.get(db.reportschannel);
+            let reports = await this.client.channels.get(db.reportschannel);
             if(!reports) reports = "None";
-            let action = await message.guild.channels.get(db.actionlog);
+            let action = await this.client.channels.get(db.actionlog);
             if(!action) action = "None";
               let embed = new Discord.RichEmbed()
               .setFooter(this.client.user.tag, this.client.user.displayAvatarURL)
