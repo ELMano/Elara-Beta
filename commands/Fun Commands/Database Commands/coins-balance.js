@@ -9,6 +9,7 @@ module.exports = class NCommand extends Command {
              examples: [`${client.commandPrefix}balance @user/id/name`],
              description: 'Checks the balance of you or another user.',
              group: 'fun',
+             guildOnly: true,
              args: [
                 {
                     key: 'user',
@@ -25,7 +26,7 @@ module.exports = class NCommand extends Command {
         if(user.bot) return message.channel.send(`Bot's don't get any coins.`)
         this.client.dbcoins.findOne({userID: user.id, guildID: message.guild.id}, async (err, db) => {
             if(!db){
-                return message.channel.send(`You don't have any coins in the database.`)
+                return message.channel.send(`${user.tag} don't have any coins in the database.`)
             }else{
                 let e = new Discord.RichEmbed()
                 .setAuthor(user.tag, user.displayAvatarURL)
