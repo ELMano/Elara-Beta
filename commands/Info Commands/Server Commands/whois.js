@@ -59,7 +59,7 @@ module.exports = class NCommand extends Command {
             }
             embed.addField(`Bot`, member.user.bot ? `Yes ${this.client.util.emojis.robot}` : `No ${this.client.util.emojis.human}`, true)
             if(this.client.isOwner(member.user.id)){embed.addField(`Bot Owner`, `${this.client.isOwner(member.user.id) ? "Yes, Hi Boss <:SmileyHearts:485361754633797654>" : "No"}`, true)}
-            // if (this.client.guilds.get("499409162661396481").members.get(member.user.id)) {embed.addField(`Bot Support `, `${this.client.guilds.get("499409162661396481").members.get(member.user.id).roles.has("Support Team") ? "No" : "Yes"}`, true)}
+            if (this.client.guilds.get("499409162661396481").members.get(member.user.id).roles.has("499409601616412673")) {embed.addField(`Bot Support `, `${this.client.guilds.get("499409162661396481").members.get(member.user.id).roles.has("499409601616412673") ? "Yes" : "No"}`, true)}
             embed.addField(`Created & Joined At`, `
             **Created Account At: **${moment(member.user.createdAt).format('MMMM Do YYYY')}
             **Joined Server At: **${moment(member.joinedAt).format('MMMM Do YYYY')}
