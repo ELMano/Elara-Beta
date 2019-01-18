@@ -51,7 +51,7 @@ module.exports = class NCommand extends Command {
                     let embed = new Discord.RichEmbed()
                     .setAuthor(user.tag, user.displayAvatarURL)
                     .setColor(`RANDOM`)
-                    .setDescription(`${message.author} has robed ${user} and got ${amount} coins!`)
+                    .setDescription(`${message.author} has robbed ${user} and got ${amount} coins!`)
                     .setTimestamp()
                     return message.channel.send(embed)
                     }
