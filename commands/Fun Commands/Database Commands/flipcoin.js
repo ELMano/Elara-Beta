@@ -9,6 +9,7 @@ module.exports = class NCommand extends Command {
              examples: [`${client.commandPrefix}flipcoin amount`],
              description: 'Flips the amount of coins you provide',
              group: 'fun',
+             guildOnly: true,
              throttling: {
                 usages: 1,
                 duration: 1000
