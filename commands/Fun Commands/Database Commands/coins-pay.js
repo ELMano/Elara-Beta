@@ -53,7 +53,7 @@ module.exports = class NCommand extends Command {
                     let embed = new Discord.RichEmbed()
                     .setAuthor(user.tag, user.displayAvatarURL)
                     .setColor(`RANDOM`)
-                    .setDescription(`${message.author} has payed ${user}: ${amount} coins!`)
+                    .setDescription(`${message.author} has given ${user}: ${amount} coins!`)
                     .setTimestamp()
                     return message.channel.send(embed)
                 }else{
@@ -62,7 +62,7 @@ module.exports = class NCommand extends Command {
                     let embed = new Discord.RichEmbed()
                     .setAuthor(user.tag, user.displayAvatarURL)
                     .setColor(`RANDOM`)
-                    .setDescription(`${message.author} has payed ${user}: ${amount} coins!`)
+                    .setDescription(`${message.author} has given ${user}: ${amount} coins!`)
                     .setTimestamp()
                     return message.channel.send(embed)
                 }
