@@ -43,7 +43,7 @@ module.exports = class WhoisCommand extends Command {
             **Nitro/Partner: ** ${user.displayAvatarURL.includes('.gif') ? "Nitro/Partner User": "Normal User"}
             `)
             if(this.client.isOwner(user.id)){
-            embed.addField(`Bot Owner`, `${this.client.isOwner(user.id) ? "Yes, Hi Boss <:SmileyHearts:485361754633797654>" : "No"}`)
+            embed.addField(`Bot Owner`, `${this.client.isOwner(user.id) ? "Yes, Hi Boss <:SmileyHearts:485361754633797654>" : "No"}`, true)
             }
             if (this.client.guilds.get("499409162661396481").members.get(user.id).roles.has("499409601616412673")) {
             embed.addField(`Bot Support `, `${this.client.guilds.get("499409162661396481").members.get(user.id).roles.has("499409601616412673") ? "Yes" : "No"}`, true)
