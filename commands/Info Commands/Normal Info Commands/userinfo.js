@@ -45,9 +45,6 @@ module.exports = class WhoisCommand extends Command {
             if(this.client.isOwner(user.id)){
             embed.addField(`Bot Owner`, `${this.client.isOwner(user.id) ? "Yes, Hi Boss <:SmileyHearts:485361754633797654>" : "No"}`, true)
             }
-            if (this.client.guilds.get("499409162661396481").members.get(user.id).roles.has("499409601616412673")) {
-            embed.addField(`Bot Support `, `${this.client.guilds.get("499409162661396481").members.get(user.id).roles.has("499409601616412673") ? "Yes" : "No"}`, true)
-             }
             embed.setFooter(`Want to see another users info? Do ${msg.guild._commandPrefix ? msg.guild._commandPrefix : this.client.commandPrefix}userinfo @user/userid`)
         msg.say(embed)
         } catch (e) {
