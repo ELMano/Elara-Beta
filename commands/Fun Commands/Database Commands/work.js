@@ -9,6 +9,7 @@ module.exports = class NCommand extends Command {
              examples: [`${client.commandPrefix}work`],
              description: 'Work and get coins.',
              group: 'fun',
+             guildOnly: true,
              throttling: {
                  usages: 1,
                  duration: 10
