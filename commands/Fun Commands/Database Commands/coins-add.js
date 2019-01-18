@@ -9,6 +9,7 @@ module.exports = class NCommand extends Command {
             examples: [`${client.commandPrefix}give @user amount`],
             description: 'Gives the user you provide the amount of coins you provide',
             group: 'fun',
+            guildOnly: true,
             args: [
                 {
                     key: "user",
