@@ -8,7 +8,8 @@ module.exports = class NCommand extends Command {
              aliases: [`lb`],
              examples: [`${client.commandPrefix}leaderboard`],
              description: 'Shows the coins leaderboard for the server.',
-             group: 'fun'
+             group: 'fun',
+             guildOnly: true
 })
 }
         async run(message) {
