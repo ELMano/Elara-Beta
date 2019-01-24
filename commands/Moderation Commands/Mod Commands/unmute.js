@@ -25,7 +25,7 @@ module.exports = class NCommand extends Command {
         try{
         let muterole = message.guild.roles.find(r => r.name === "Muted") || message.guild.roles.find(r => r.name === "muted")
         await (member.removeRole(muterole.id));
-        message.channel.send(`✅ ***${tomute.user.tag} Has Been Unmuted!***`);
+        message.channel.send(`✅ ***${member.user.tag} Has Been Unmuted!***`);
         message.delete().catch();
         } catch (e) {
             this.client.error(this.client, message, e);
