@@ -37,7 +37,7 @@ module.exports = class NCommand extends Command {
         try{
         let mod = message.author
         if (member.hasPermission("MANAGE_MESSAGES")) return message.reply("Sorry but i can't mute Mods/Admins!");
-        let muterole = message.guild.roles.find(r => r.name === "Muted").id || message.guild.roles.find(r => r.name === "muted").id
+        let muterole = message.guild.roles.find(r => r.name === "Muted") || message.guild.roles.find(r => r.name === "muted")
         if (!muterole) {
             try {
                 muterole = await message.guild.createRole({
@@ -78,13 +78,13 @@ module.exports = class NCommand extends Command {
                 .setTimestamp()
             member.removeRole(muterole.id);
             this.client.actionlog(this.client, message.guild, unmuteembed)
-        }, ms(mutetime));
+        }, ms(time));
         message.delete().catch();
 
         const dmembed = new Discord.RichEmbed()
             .setColor(`#FF0000`)
             .setDescription(`You have been Muted in **${message.guild.name}**`)
-            .addField(`Time`, `${ms(ms(mutetime))}`)
+            .addField(`Time`, `${ms(ms(time))}`)
             .addField(`Reason`, `${reason}`)
         await member.send(dmembed)
     } catch (e) {
