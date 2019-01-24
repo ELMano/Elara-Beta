@@ -32,10 +32,11 @@ module.exports = class NCommand extends Command {
         })
     }
     async run(message, {member, time, reason}) {
-        this.client.stats(this.client, "cmd", null, null, null)
+        this.client.stats(this.client, "cmd")
         if(this.client.perms(this.client, message, "MANAGE_MESSAGES")) return;
         try{
         let mod = message.author
+        let bot = this.client.user;
         if (member.hasPermission("MANAGE_MESSAGES")) return message.reply("Sorry but i can't mute Mods/Admins!");
         let muterole = message.guild.roles.find(r => r.name === "Muted") || message.guild.roles.find(r => r.name === "muted")
         if (!muterole) {
@@ -67,12 +68,12 @@ module.exports = class NCommand extends Command {
         this.client.actionlog(this.client, message.guild, botembed)
         message.channel.send(`${this.client.util.emojis.semoji} ***${member.user.tag} Has Been Muted!***`);
 
-        setTimeout(function () {
+        setTimeout(async () => {
             let unmuteembed = new Discord.RichEmbed()
                 .setColor(`#FF000`)
                 .setAuthor(member.user.tag, member.user.displayAvatarURL)
                 .setDescription(`Unmute | ${member.user.tag}`)
-                .addField(`Moderator`, `**Moderator: **${this.client.user} \`${this.client.user.tag}\` (${this.client.user.id})`, true)
+                .addField(`Moderator`, `**Moderator: **${bot} \`${bot.tag}\` (${bot.id})`, true)
                 .addField(`User Unmuted`, `**User: **${member} \`${member.user.tag}\` (${member.user.id})`, true)
                 .addField(`Reason`, `Auto`, true)
                 .setTimestamp()
@@ -86,7 +87,9 @@ module.exports = class NCommand extends Command {
             .setDescription(`You have been Muted in **${message.guild.name}**`)
             .addField(`Time`, `${ms(ms(time))}`)
             .addField(`Reason`, `${reason}`)
+            try{
         await member.send(dmembed)
+            }catch(e){}
     } catch (e) {
         this.client.error(this.client, message, e);
     this.client.logger(this.client, message.guild, e.stack, message, message.channel)
