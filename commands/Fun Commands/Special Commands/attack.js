@@ -9,6 +9,7 @@ module.exports = class NCommand extends Command {
             examples: [`${client.commandPrefix}attack`],
             description: "Sends the Attack Blob Cheer army!\n[SUPERCHIEFYT's Discord Command only.]",
             group: "special",
+            guildOnly: true,
             hidden: true
         })
     }
@@ -30,6 +31,7 @@ module.exports = class NCommand extends Command {
             .setAuthor(`ATTACK OF THE CHEER BLOBS! `, emoji.url)
             .setDescription(attack)
         message.channel.send(embed)
+    
         } catch (e) {
             message.channel.send(`ERROR:\n${e}`)
             this.client.logger(this.client, message.guild, e.stack, message, message.channel)
