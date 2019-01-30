@@ -8,7 +8,7 @@ module.exports = class AddRoleCommand extends Command {
             group: "mod",
             aliases: ["role-"],
             memberName: "removerole",
-            description: "Adds a role to a user",
+            description: "Removes the role from the member.",
             examples: [`${client.commandPrefix}role- @user <Role Name>`],
             guildOnly: true,
             args: [
@@ -39,13 +39,6 @@ module.exports = class AddRoleCommand extends Command {
                 .addField(`Why am I getting this error?.`, `To fix this error.\n1. Make sure that the bot has \`Manage Roles\` permission in server settings.\n2. Make sure that the Bot's highest role is above the role you are trying to give to someone.\n3. If none of those worked Join the Support Server and Ask one of the Support Team members about this issue. [Click Here](${this.client.options.invite})`)
            return message.channel.send(eb)
         })
-        let embed = new Discord.RichEmbed()
-        .setAuthor(`Action`, message.guild.iconURL)
-        .setColor(`#FF000`)
-        .setTimestamp()
-        .setDescription(`Role Removed: ${role}`)
-        .addField(`INFO`, `**Member: **${member} \`${member.user.tag}\` (${member.id})\n**Moderator: **${message.author} \`${message.author.tag}\` (${message.author.id})`)
-        await this.client.log(this.client, message.guild, embed) 
         await message.react(this.client.util.emojis.sreact)   
     }catch(e){
         this.client.error(this.client, message, e);
