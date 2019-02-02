@@ -15,14 +15,27 @@ module.exports = class NCommand extends Command {
                     key: 'content',
                     prompt: 'What emoji do you want me to get the info about?',
                     type: 'string'
+                },
+                {
+                    key: "type",
+                    prompt: "What type? [`default`, `link/url`]",
+                    type: "string",
+                    default: "default"
                 }
             ]
         })
     }
-    async run(msg, { content }) {
-        this.client.stats(this.client, "cmd", null, null, null)
+    async run(msg, { content, type }) {
+        this.client.stats(this.client, "cmd")
+        let t = type.toLowerCase()
         try{
         let client = this.client;
+        let color;
+        if(msg.guild){
+            color = msg.member.displayColor
+        }else{
+            color = "RANDOM"
+        }
         const emoji = content.split(/\s+/)[0];
         let parsedEmoji = DJSUtils.parseEmoji(emoji);
         if (/^\d{17,19}/.test(emoji)) {
@@ -50,8 +63,9 @@ module.exports = class NCommand extends Command {
     if (parsedEmoji && parsedEmoji.id) {
 			const globalEmoji = this.client.emojis.get(parsedEmoji.id);
 			if (globalEmoji) {
+                if(t === 'def' || t === "default"){
                 let e = new Discord.RichEmbed()
-                .setColor(`RANDOM`)
+                .setColor(color)
                 .setAuthor(client.user.tag, client.user.displayAvatarURL)
                 .setDescription(`
                 **Emoji: **${globalEmoji.name}
@@ -64,12 +78,17 @@ module.exports = class NCommand extends Command {
                 **Server: **${globalEmoji.guild.name} (${globalEmoji.guild.id})
                 `)
                 .setThumbnail(globalEmoji.url)
-                msg.channel.send(e)        
+                msg.channel.send(e)       
+                }else
+                if(t === 'link' || t === "url"){
+                    return msg.channel.send(globalEmoji.url)
+                } 
 			} else {
+                if(t === 'def' || t === "default"){
                 let url = `${parsedEmoji.animated !== "unknown" ? `${ client.options.http.cdn }/emojis/${ parsedEmoji.id }.${ parsedEmoji.animated === true ? "gif" : "png" }` : ""}`
                 let e = new Discord.RichEmbed()
                 .setAuthor(client.user.tag, client.user.displayAvatarURL)
-                .setColor(`RANDOM`)
+                .setColor(color)
                 .setDescription(`
                 **Name: **${parsedEmoji.name ? `${parsedEmoji.name}` : ""}
                 **ID: **${parsedEmoji.id}
@@ -79,37 +98,12 @@ module.exports = class NCommand extends Command {
                 `)
                 e.setThumbnail(url)
                 msg.channel.send(e)
+                }else
+                if(t === 'link' || t === "url"){
+                    let url = `${parsedEmoji.animated !== "unknown" ? `${ client.options.http.cdn }/emojis/${ parsedEmoji.id }.${ parsedEmoji.animated === true ? "gif" : "png" }` : ""}`
+                    return msg.channel.send(url)
+                }
 			}
-
-    } else if (msg.guild.emojis.size) {
-		const staticEmojis = msg.guild.emojis.filter(e => !e.animated);
-		const animatedEmojis = msg.guild.emojis.filter(e => e.animated);
-		const fields = [];
-		staticEmojis.size && fields.push({
-			name: `There ${staticEmojis.size === 1 ? "is" : "are"} ${staticEmojis.size} static emoji${staticEmojis.size === 1 ? "" : "s"} in this server`,
-			value: `${staticEmojis.map(e => `\`:${e.name}:\` » ${e}`).join("\n")}`,
-		});
-		animatedEmojis.size && fields.push({
-			name: `There ${animatedEmojis.size === 1 ? "is" : "are"} ${animatedEmojis.size} animated emoji${animatedEmojis.size === 1 ? "" : "s"} in this server`,
-			value: `${animatedEmojis.map(e => `\`:${e.name}:\` » ${e}`).join("\n")}`,
-		});
-        msg.channel.send({
-			embed: {
-				color: 0xFF000,
-				fields,
-				footer: {
-					text: `Want to learn more about an emoji? Run "${msg.guild.commandPrefix}emotes <custom emote>"`,
-				},
-			},
-		});
-	} else {
-        msg.channel.send({
-			embed: {
-                color: 0xFF0000,
-				description: `There aren't any custom emojis in this server!.`,
-			},
-        })
-    
     }
         } catch (e) {
             this.client.error(this.client, msg, e);
