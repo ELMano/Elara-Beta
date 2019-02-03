@@ -7,6 +7,7 @@ module.exports = class CleanCommand extends Command {
             aliases: ['purge', 'prune', 'clear', "nuke"],
             group: 'mod',
             memberName: 'clean',
+            userPermissions: ["MANAGE_MESSAGES"],
             clientPermissions: ["MANAGE_MESSAGES"],
             description: 'Deletes messages.',
             details: `Deletes messages. Here is a list of filters:
@@ -36,17 +37,16 @@ module.exports = class CleanCommand extends Command {
                     parse: str => str.toLowerCase()
                 },
                 {
-                    key: 'member',
+                    key: 'user',
                     prompt: 'whose messages would you like to delete?\n',
-                    type: 'member',
+                    type: 'user',
                     default: ''
                 }
             ]
         });
     }
-    async run(msg, { filter, limit, member }) {
-        this.client.stats(this.client, "cmd", null, null, null)
-        if(this.client.perms(this.client, msg, "MANAGE_MESSAGES")) return;
+    async run(msg, { filter, limit, user }) {
+        this.client.stats(this.client, "cmd")
         try{
         if(limit > 100) limit = 100;
         msg.delete(100).catch()
@@ -57,8 +57,7 @@ module.exports = class CleanCommand extends Command {
                 messageFilter = message => message.content.search(/(discord\.gg\/.+|discordapp\.com\/invite\/.+)/i) && message.pinned === false
                     !== -1;
             } else if (filter === 'user' || filter === 'member' || filter === 'members' || filter === "users") {
-                if (member) {
-                    const { user } = member;
+                if (user) {
                     messageFilter = message => message.author.id === user.id && message.pinned === false
                 } else {
                     return msg.say(`${msg.author}, you have to mention someone.`);
