@@ -201,7 +201,7 @@ const logger = async function (client, type, err, msg, ch) {
         .setTitle(`COMMAND ERROR`)
         .setDescription(err)
         .setTimestamp()
-    if(type.guild){
+    if(type){
         e.addField(`Server`, `**Guild: **${type.name} (${type.id})`)
     }else{
     e.addField(`Type`, `DM`)
