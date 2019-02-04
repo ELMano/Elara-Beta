@@ -21,7 +21,7 @@ module.exports = class NCommand extends Command {
                 .setColor(`RANDOM`)
                 .setAuthor(this.client.user.tag, this.client.user.displayAvatarURL)
                 .setTimestamp()
-                .setTitle(`Server List`)
+                .setTitle(`Roles List`)
             let embed2 = new Discord.RichEmbed()
                 .setColor(`RANDOM`)
             let embed3 = new Discord.RichEmbed()
