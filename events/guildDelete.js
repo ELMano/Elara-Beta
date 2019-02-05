@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const moment = require('moment');
 module.exports.run = (bot, guild) => {
+    if(guild.available === false) return;
     try{
     let client = bot;
     bot.db.findOneAndRemove({ guildID: guild.id }).catch((err) => console.log(err));
