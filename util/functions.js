@@ -337,5 +337,6 @@ module.exports = {
     server,
     mod,
     messages,
+    bin,
     joins
 }
