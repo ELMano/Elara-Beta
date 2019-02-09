@@ -5,6 +5,20 @@ const Stats = require('../util/models/stats.js');
 const Settings = require('../util/models/settings.js');
 //Requirements.
 
+const bin = async function(message, title, args){
+    const request = require('superagent');
+    let { body } = await request.post(`https://paste.lemonmc.com/api/json/create`).send({data: `${args}`,language: 'text',private: true,title: `${title}`, expire: '2592000'}).catch(err => {console.log(err)})
+    let link = `https://paste.lemonmc.com/${body.result.id}/${body.result.hash}`
+    let e = new re()
+    .setAuthor(message.author.tag, message.author.displayAvatarURL)
+    .setTitle(`${title}`)
+    .setURL(link)
+    return message.channel.send(e)
+}
+
+
+
+
 const user = async function(client, guild, embed){
     Settings.findOne({guildID: guild.id}, async(err, db) => {
         if(!db){
